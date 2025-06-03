@@ -1,0 +1,33 @@
+name: Run Basic Testes
+
+# em que momento será executada
+on: 
+  schedule:
+    - cron: '0 20 * * 1-5'
+
+jobs:
+  # o que vai ser feito nessa pipeline
+  # só teremos um job: rodar os testes
+  cypress-run:
+    # máquina que será executado
+    runs-on: ubuntu-latest
+
+    # passo a passo para rodar os testes
+    steps:
+      - name: Checkout/Clone do projeto
+        uses: actions/checkout@v4
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar testes
+        run: npx cypress run --record
+        env: 
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      # upload do relatório do mocha
+      - name: Upload relatório do Mocha
+        uses: actions/upload-artifact@v4
+        with:
+          name: Relatorio
+          path: cypress/reports/html
