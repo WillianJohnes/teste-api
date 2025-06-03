@@ -22,8 +22,7 @@ jobs:
 
       - name: Rodar testes
         run: npx cypress run --record
-        env: 
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+    
 
       # upload do relatório do mocha
       - name: Upload relatório do Mocha
